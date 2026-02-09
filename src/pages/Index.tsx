@@ -10,7 +10,7 @@ const Scene3D = lazy(() => import("@/components/Scene3D"));
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden relative">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden relative select-none">
       {/* 3D Background */}
       <Suspense fallback={null}>
         <Scene3D className="fixed inset-0 z-0" />

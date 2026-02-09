@@ -3,7 +3,7 @@ import { Globe, Brain, Lock, Clock } from "lucide-react";
 
 const stats = [
   { icon: Globe, value: "16+", label: "Languages Supported" },
-  { icon: Brain, value: "4", label: "AI Difficulty Levels" },
+  { icon: Brain, value: "50+", label: "Commands Available" },
   { icon: Lock, value: "4-Level", label: "Encryption System" },
   { icon: Clock, value: "24/7", label: "Uptime" },
 ];

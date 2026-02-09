@@ -3,11 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ExternalLink } from "lucide-react";
 import botAvatar from "@/assets/bot-avatar.png";
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ThemeToggle";
+import { useLocation, Link } from "react-router-dom";
 
 const navLinks = [
   { label: "Features", href: "#features" },
   { label: "Commands", href: "#commands" },
   { label: "Stats", href: "#stats" },
+  { label: "FAQ", href: "/faq", isRoute: true },
 ];
 
 const Navbar = () => {
@@ -20,8 +23,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNav = (href: string) => {
+  const location = useLocation();
+
+  const handleNav = (href: string, isRoute?: boolean) => {
     setMobileOpen(false);
+    if (isRoute) return; // Link component handles route navigation
+    if (location.pathname !== "/") {
+      window.location.href = "/" + href;
+      return;
+    }
     const el = document.querySelector(href);
     el?.scrollIntoView({ behavior: "smooth" });
   };
@@ -45,17 +55,27 @@ const Navbar = () => {
           </span>
         </a>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button
-              key={link.label}
-              onClick={() => handleNav(link.href)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map((link) =>
+            link.isRoute ? (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <button
+                key={link.label}
+                onClick={() => handleNav(link.href)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </button>
+            )
+          )}
+          <ThemeToggle />
           <Button size="sm" className="gap-1.5 rounded-full text-sm" asChild>
             <a href="https://discord.com/oauth2/authorize?client_id=1379152032358858762&permissions=4503874505665600&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer">
               <ExternalLink size={14} /> Add to Discord
@@ -79,20 +99,34 @@ const Navbar = () => {
             className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/30 overflow-hidden"
           >
             <div className="px-4 py-4 flex flex-col gap-3">
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNav(link.href)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left py-2"
-                >
-                  {link.label}
-                </button>
-              ))}
-              <Button size="sm" className="gap-1.5 rounded-full text-sm w-fit mt-2" asChild>
-                <a href="https://discord.com/oauth2/authorize?client_id=1379152032358858762&permissions=4503874505665600&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer">
-                  <ExternalLink size={14} /> Add to Discord
-                </a>
-              </Button>
+              {navLinks.map((link) =>
+                link.isRoute ? (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left py-2"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.label}
+                    onClick={() => handleNav(link.href)}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left py-2"
+                  >
+                    {link.label}
+                  </button>
+                )
+              )}
+              <div className="flex items-center gap-3 mt-2">
+                <ThemeToggle />
+                <Button size="sm" className="gap-1.5 rounded-full text-sm w-fit" asChild>
+                  <a href="https://discord.com/oauth2/authorize?client_id=1379152032358858762&permissions=4503874505665600&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer">
+                    <ExternalLink size={14} /> Add to Discord
+                  </a>
+                </Button>
+              </div>
             </div>
           </motion.div>
         )}
