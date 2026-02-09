@@ -37,13 +37,13 @@ const FloatingOrb = ({ position, color, speed, distort, size }: {
 };
 
 const ParticleField = () => {
-  const count = 200;
+  const count = 350;
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      pos[i * 3] = (Math.random() - 0.5) * 25;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 25;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 12;
     }
     return pos;
   }, []);
@@ -69,9 +69,9 @@ const ParticleField = () => {
       </bufferGeometry>
       <pointsMaterial
         color="#4a9eff"
-        size={0.03}
+        size={0.035}
         transparent
-        opacity={0.6}
+        opacity={0.7}
         sizeAttenuation
       />
     </points>
@@ -94,6 +94,8 @@ const Scene3D = ({ className = "" }: { className?: string }) => {
         <FloatingOrb position={[3.5, -1.5, -3]} color="#6366f1" speed={0.8} distort={0.3} size={0.9} />
         <FloatingOrb position={[-2, -2.5, -1]} color="#22d3ee" speed={1} distort={0.5} size={0.7} />
         <FloatingOrb position={[2, 3, -4]} color="#8b5cf6" speed={0.6} distort={0.35} size={1} />
+        <FloatingOrb position={[0, -4, -2]} color="#3b82f6" speed={0.9} distort={0.45} size={0.6} />
+        <FloatingOrb position={[-4, 0, -3]} color="#06b6d4" speed={0.7} distort={0.3} size={0.5} />
         
         <ParticleField />
       </Canvas>
