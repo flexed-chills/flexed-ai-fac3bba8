@@ -1,14 +1,16 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Copy, Check } from "lucide-react";
 import { commands, categories } from "@/lib/commands";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableHeader, TableHead, TableRow, TableBody, TableCell } from "@/components/ui/table";
+import { toast } from "sonner";
 
 const CommandsSection = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return commands.filter((cmd) => {
@@ -17,6 +19,13 @@ const CommandsSection = () => {
       return matchesCategory && matchesSearch;
     });
   }, [search, activeCategory]);
+
+  const handleCopy = useCallback((name: string) => {
+    navigator.clipboard.writeText(name);
+    setCopiedCmd(name);
+    toast.success(`Copied ${name} to clipboard`);
+    setTimeout(() => setCopiedCmd(null), 2000);
+  }, []);
 
   return (
     <section id="commands" className="py-24 px-4 max-w-5xl mx-auto">
@@ -80,7 +89,24 @@ const CommandsSection = () => {
           <TableBody>
             {filtered.map((cmd) => (
               <TableRow key={cmd.name} className="border-border/20 hover:bg-secondary/30">
-                <TableCell className="font-mono text-primary text-sm">{cmd.name}</TableCell>
+                <TableCell className="font-mono text-primary text-sm">
+                  {cmd.copyable ? (
+                    <button
+                      onClick={() => handleCopy(cmd.name)}
+                      className="flex items-center gap-1.5 hover:text-foreground transition-colors group cursor-pointer"
+                      title="Click to copy"
+                    >
+                      {cmd.name}
+                      {copiedCmd === cmd.name ? (
+                        <Check size={13} className="text-green-400" />
+                      ) : (
+                        <Copy size={13} className="opacity-0 group-hover:opacity-60 transition-opacity" />
+                      )}
+                    </button>
+                  ) : (
+                    cmd.name
+                  )}
+                </TableCell>
                 <TableCell className="text-sm text-muted-foreground">{cmd.description}</TableCell>
                 <TableCell className="hidden sm:table-cell">
                   <Badge variant="secondary" className="text-xs">{cmd.category}</Badge>

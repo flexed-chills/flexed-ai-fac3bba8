@@ -1,4 +1,4 @@
-import { ExternalLink, Heart, MessageCircle } from "lucide-react";
+import { ExternalLink, Heart, MessageCircle, Github } from "lucide-react";
 
 const FooterSection = () => {
   return (
@@ -11,12 +11,15 @@ const FooterSection = () => {
           <a href="https://patreon.com/flexedai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
             <Heart size={14} /> Patreon
           </a>
-          <a href="#" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+          <a href="https://discord.com/invite/XMvPq7W5N4" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
             <MessageCircle size={14} /> Support Server
+          </a>
+          <a href="https://github.com/flexed-commits/flexedai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+            <Github size={14} /> GitHub
           </a>
         </div>
         <p className="text-sm text-muted-foreground">
-          Made with <span className="text-red-400">❤️</span> by flexedAI
+          Made with love <span className="text-red-400">❤️</span> by Ψ.1nOnly.Ψ
         </p>
       </div>
     </footer>
